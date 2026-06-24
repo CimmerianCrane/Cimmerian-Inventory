@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  body {
+    background-color: #FBF8F2;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(193, 119, 40, 0.04) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(77, 106, 139, 0.04) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(193, 119, 40, 0.20);
+    color: #2D2820;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(140, 126, 100, 0.25);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(140, 126, 100, 0.45);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+
+  input, select, textarea {
+    font-family: inherit;
+  }
+}
+
+@layer components {
+  .input-field {
+    @apply w-full bg-white border border-stone-200 rounded-xl px-4 py-2.5 text-stone-700
+           placeholder-stone-400 outline-none transition-[border-color,box-shadow] duration-200
+           focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10
+           hover:border-stone-300;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+           bg-stone-800 hover:bg-stone-900 active:bg-stone-700
+           text-stone-50 font-medium rounded-xl
+           transition-[transform,background-color,box-shadow] duration-200 ease-out
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100
+           shadow-stone-sm hover:shadow-stone-md hover:-translate-y-px active:translate-y-0;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+           bg-amber-500 hover:bg-amber-600 active:bg-amber-700
+           text-white font-medium rounded-xl
+           transition-[transform,background-color,box-shadow] duration-200 ease-out
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100
+           shadow-stone-sm hover:shadow-amber-glow hover:-translate-y-px active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+           bg-white hover:bg-stone-150 active:bg-stone-200
+           text-stone-700 font-medium rounded-xl border border-stone-200
+           transition-[transform,background-color,border-color] duration-200 ease-out
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-300 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100
+           hover:border-stone-300 hover:-translate-y-px active:translate-y-0;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+           bg-clay-500 hover:bg-clay-600 active:bg-clay-700
+           text-white font-medium rounded-xl
+           transition-[transform,background-color,box-shadow] duration-200 ease-out
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-clay-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100
+           shadow-stone-sm hover:shadow-stone-md hover:-translate-y-px active:translate-y-0;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-2
+           text-stone-600 font-medium rounded-lg
+           transition-[color,background-color] duration-200
+           hover:text-stone-800 hover:bg-stone-150
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-300 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100;
+  }
+
+  .table-header-cell {
+    @apply px-4 py-3.5 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-stone-500
+           cursor-pointer select-none transition-colors duration-150 hover:text-amber-600;
+  }
+
+  .table-row {
+    @apply border-b border-stone-200/70 transition-colors duration-150
+           hover:bg-stone-150/60;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium
+           bg-stone-150 text-stone-600 border border-stone-200/60;
+  }
+
+  .badge-amber {
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium
+           bg-amber-50 text-amber-700 border border-amber-200/70;
+  }
+
+  .badge-clay {
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium
+           bg-clay-50 text-clay-600 border border-clay-200/70;
+  }
+
+  .badge-sage {
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium
+           bg-sage-50 text-sage-600 border border-sage-200/70;
+  }
+
+  .badge-indigo {
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium
+           bg-indigo-50 text-indigo-600 border border-indigo-200/70;
+  }
+
+  .surface-card {
+    @apply bg-white border border-stone-200/70 rounded-2xl shadow-stone-sm;
+  }
+
+  .surface-elevated {
+    @apply bg-white border border-stone-200/60 rounded-2xl shadow-stone-lg;
+  }
+
+  .surface-floating {
+    @apply bg-white border border-stone-200 rounded-2xl shadow-stone-xl;
+  }
+
+  .label-eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.1em] text-stone-500;
+  }
+
+  .display-heading {
+    @apply font-display tracking-tighter text-stone-800;
+  }
+
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.025;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px;
+  }
+}
