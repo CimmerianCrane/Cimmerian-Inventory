@@ -129,16 +129,16 @@ export default function QRScanner({ onScan, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6" role="dialog" aria-modal="true">
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-50 bg-stone-900 sm:bg-stone-900/70 sm:backdrop-blur-md sm:flex sm:items-center sm:justify-center sm:px-4 sm:py-6 animate-fade-in" role="dialog" aria-modal="true">
+      {/* Backdrop for desktop */}
       <div
-        className="absolute inset-0 bg-stone-900/70 backdrop-blur-md animate-fade-in"
+        className="hidden sm:block absolute inset-0"
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-md surface-floating overflow-hidden animate-scale-in">
+      <div className="relative w-full h-full sm:h-auto sm:max-w-md surface-floating sm:overflow-hidden animate-sheet-up sm:animate-scale-in mobile-sheet flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-stone-200">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-stone-200 pt-safe">
           <div>
             <p className="label-eyebrow mb-1">QR Scanner</p>
             <h2 className="font-display text-lg font-semibold tracking-tight text-stone-800">
@@ -147,7 +147,7 @@ export default function QRScanner({ onScan, onClose }) {
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-150 transition-colors"
+            className="touch-target -mr-2 p-2 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-150 transition-colors"
             aria-label="Close"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -156,8 +156,8 @@ export default function QRScanner({ onScan, onClose }) {
           </button>
         </div>
 
-        {/* Viewfinder */}
-        <div className="relative bg-stone-900 aspect-square overflow-hidden">
+        {/* Viewfinder — fills remaining height on mobile, square on desktop */}
+        <div className="relative bg-stone-900 flex-1 min-h-[60vh] sm:aspect-square sm:flex-none sm:min-h-0 overflow-hidden">
           {/* Camera region (html5-qrcode injects the video here) */}
           <div id="qr-scanner-region" className="absolute inset-0 [&_video]:object-cover [&_video]:!w-full [&_video]:!h-full [&_video]:!left-0 [&_video]:!top-0" />
 
@@ -210,7 +210,7 @@ export default function QRScanner({ onScan, onClose }) {
         </div>
 
         {/* Footer controls */}
-        <div className="px-5 py-4 border-t border-stone-200 bg-stone-100/40">
+        <div className="px-5 py-4 border-t border-stone-200 bg-stone-100/40 pb-safe">
           <p className="text-xs text-stone-500 text-center leading-relaxed mb-3">
             Point the camera at a part's QR code to look it up instantly.
           </p>
@@ -220,7 +220,7 @@ export default function QRScanner({ onScan, onClose }) {
               <select
                 value={activeCam || ''}
                 onChange={(e) => switchCamera(e.target.value)}
-                className="text-xs bg-white border border-stone-200 rounded-lg px-2.5 py-2 text-stone-600 font-mono max-w-[180px] truncate"
+                className="text-xs bg-white border border-stone-200 rounded-lg px-2.5 py-2 text-stone-600 font-mono max-w-[180px] truncate flex-1"
               >
                 {cameras.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -232,7 +232,7 @@ export default function QRScanner({ onScan, onClose }) {
               <span />
             )}
 
-            <button onClick={onClose} className="btn-secondary text-sm">
+            <button onClick={onClose} className="btn-secondary text-sm flex-1 sm:flex-none justify-center">
               Cancel
             </button>
           </div>

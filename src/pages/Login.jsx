@@ -25,7 +25,7 @@ export default function Login({ onLogin }) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12 relative overflow-hidden pt-safe pb-safe">
       {/* Atmospheric background */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Soft radial washes */}
@@ -46,16 +46,16 @@ export default function Login({ onLogin }) {
 
       <div className="w-full max-w-[420px] relative z-10 animate-slide-up">
         {/* Brand block */}
-        <div className="text-center mb-10">
-          <div className="inline-block mb-8">
+        <div className="text-center mb-7 sm:mb-10">
+          <div className="inline-block mb-5 sm:mb-8">
             <img
               src={logo}
               alt="Cimmerian Crane"
-              className="h-40 w-auto mx-auto select-none"
+              className="h-28 sm:h-40 w-auto mx-auto select-none"
               draggable="false"
             />
           </div>
-          <h1 className="font-display text-3xl font-semibold tracking-tighter text-stone-800 leading-none">
+          <h1 className="font-display text-2xl sm:text-3xl font-semibold tracking-tighter text-stone-800 leading-none">
             Cimmerian Crane
           </h1>
           <div className="mt-3 inline-flex items-center gap-2">
@@ -68,9 +68,9 @@ export default function Login({ onLogin }) {
         </div>
 
         {/* Login card */}
-        <div className="surface-elevated p-8 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-          <div className="mb-7">
-            <h2 className="font-display text-xl font-semibold tracking-tight text-stone-800">
+        <div className="surface-elevated p-6 sm:p-8 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <div className="mb-6 sm:mb-7">
+            <h2 className="font-display text-lg sm:text-xl font-semibold tracking-tight text-stone-800">
               Sign In
             </h2>
             <p className="mt-1 text-xs text-stone-500 font-mono tracking-wider">
@@ -89,7 +89,11 @@ export default function Login({ onLogin }) {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="operator@cimmerian.com"
                 required
-                className="input-field"
+                autoComplete="email"
+                inputMode="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                className="input-field py-3 sm:py-2.5"
               />
             </div>
             <div>
@@ -102,7 +106,8 @@ export default function Login({ onLogin }) {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••"
                 required
-                className="input-field"
+                autoComplete="current-password"
+                className="input-field py-3 sm:py-2.5"
               />
             </div>
 
@@ -111,11 +116,11 @@ export default function Login({ onLogin }) {
                 <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span>{error}</span>
+                <span className="break-words">{error}</span>
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="btn-primary w-full py-3 mt-2">
+            <button type="submit" disabled={loading} className="btn-primary w-full py-3.5 sm:py-3 mt-2 text-base sm:text-sm">
               {loading ? (
                 <div className="w-4 h-4 border-2 border-stone-50/30 border-t-stone-50 rounded-full animate-spin" />
               ) : (
@@ -131,7 +136,7 @@ export default function Login({ onLogin }) {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-8 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+        <div className="text-center mt-6 sm:mt-8 animate-fade-in" style={{ animationDelay: '0.3s' }}>
           <p className="text-[11px] text-stone-500 font-mono tracking-wider">
             Cimmerian Crane Services © {new Date().getFullYear()}
           </p>

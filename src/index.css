@@ -2,6 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+/* === Mobile shell utilities ======================================= */
+@layer utilities {
+  /* iOS/Android safe-area padding helpers */
+  .pt-safe    { padding-top:    env(safe-area-inset-top); }
+  .pb-safe    { padding-bottom: env(safe-area-inset-bottom); }
+  .pl-safe    { padding-left:   env(safe-area-inset-left); }
+  .pr-safe    { padding-right:  env(safe-area-inset-right); }
+  .px-safe    { padding-left:   env(safe-area-inset-left); padding-right:  env(safe-area-inset-right); }
+  .py-safe    { padding-top:    env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+  .mt-safe    { margin-top:     env(safe-area-inset-top); }
+  .mb-safe    { margin-bottom:  env(safe-area-inset-bottom); }
+
+  /* Minimum touch target — meets Apple's 44pt guideline */
+  .touch-target {
+    min-height: 44px;
+    min-width:  44px;
+  }
+
+  /* Hide scrollbar but keep scroll functionality (mobile carousels etc.) */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Smooth momentum scrolling for iOS */
+  .scroll-smooth-momentum {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+}
+
+/* === Sheet (mobile bottom-sheet) animation ======================== */
+@keyframes sheetUp {
+  0%   { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+@keyframes sheetDown {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+.animate-sheet-up   { animation: sheetUp   0.32s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-sheet-down { animation: sheetDown 0.24s cubic-bezier(0.7, 0, 0.84, 0) both; }
+
+/* Full-screen sheet on mobile — applied via media query */
+@media (max-width: 639px) {
+  .mobile-sheet {
+    max-height: 92vh !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+}
+
 /* Scan-line sweep animation for the QR viewfinder */
 @keyframes scanSweep {
   0%   { transform: translateY(-100px); opacity: 0.0; }

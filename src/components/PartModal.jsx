@@ -69,26 +69,32 @@ export default function PartModal({ part, onClose, onSave, categories }) {
   const isEdit = !!part
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-50 sm:flex sm:items-center sm:justify-center sm:px-4 sm:py-6" role="dialog" aria-modal="true">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-stone-900/40 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
       />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-lg surface-floating max-h-[90vh] overflow-y-auto animate-scale-in">
+      {/* Modal / Bottom Sheet */}
+      <div className="relative w-full sm:max-w-lg surface-floating max-h-[92vh] sm:max-h-[90vh] overflow-y-auto scroll-smooth-momentum animate-sheet-up sm:animate-scale-in mobile-sheet pb-safe">
+        {/* Mobile-only drag handle */}
+        <div className="sm:hidden sticky top-0 z-10 bg-white pt-2 pb-1">
+          <div className="w-10 h-1 bg-stone-300 rounded-full mx-auto" />
+        </div>
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-stone-200">
-          <div>
+        <div className="sticky sm:relative top-8 sm:top-auto z-10 sm:z-auto bg-white flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 border-b border-stone-200">
+          <div className="min-w-0">
             <p className="label-eyebrow mb-1">{isEdit ? 'Edit Part' : 'New Part'}</p>
-            <h2 className="font-display text-xl font-semibold tracking-tight text-stone-800">
+            <h2 className="font-display text-lg sm:text-xl font-semibold tracking-tight text-stone-800 truncate">
               {isEdit ? form.part_name || 'Edit details' : 'Add a new part'}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-150 transition-colors"
+            className="touch-target -mr-2 p-2 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-150 transition-colors flex-shrink-0"
+            aria-label="Close"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" />
@@ -97,7 +103,7 @@ export default function PartModal({ part, onClose, onSave, categories }) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
               <label className="label-eyebrow block mb-2">
@@ -111,6 +117,7 @@ export default function PartModal({ part, onClose, onSave, categories }) {
                 onChange={handleChange}
                 placeholder="e.g. Hydraulic Pump Assembly"
                 className="input-field"
+                autoComplete="off"
                 required
               />
             </div>
@@ -125,6 +132,7 @@ export default function PartModal({ part, onClose, onSave, categories }) {
                 onChange={handleChange}
                 placeholder="e.g. HP-2024-A"
                 className="input-field font-mono"
+                autoComplete="off"
               />
             </div>
             <div>
@@ -159,6 +167,7 @@ export default function PartModal({ part, onClose, onSave, categories }) {
                 value={form.quantity}
                 onChange={handleChange}
                 min="0"
+                inputMode="numeric"
                 className="input-field font-mono"
               />
             </div>
@@ -172,6 +181,7 @@ export default function PartModal({ part, onClose, onSave, categories }) {
                 value={form.min_stock}
                 onChange={handleChange}
                 min="0"
+                inputMode="numeric"
                 className="input-field font-mono"
               />
             </div>
@@ -186,6 +196,7 @@ export default function PartModal({ part, onClose, onSave, categories }) {
                 onChange={handleChange}
                 placeholder="e.g. CraneParts Direct"
                 className="input-field"
+                autoComplete="organization"
               />
             </div>
             <div>
@@ -199,6 +210,7 @@ export default function PartModal({ part, onClose, onSave, categories }) {
                 onChange={handleChange}
                 placeholder="e.g. Bay 3, Shelf A"
                 className="input-field font-mono"
+                autoComplete="off"
               />
             </div>
             <div className="sm:col-span-2">
@@ -226,11 +238,11 @@ export default function PartModal({ part, onClose, onSave, categories }) {
           )}
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-2">
-            <button type="button" onClick={onClose} className="btn-secondary">
+          <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 pt-2">
+            <button type="button" onClick={onClose} className="btn-secondary w-full sm:w-auto justify-center">
               Cancel
             </button>
-            <button type="submit" disabled={saving} className="btn-accent">
+            <button type="submit" disabled={saving} className="btn-accent w-full sm:w-auto justify-center py-3 sm:py-2.5">
               {saving ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (

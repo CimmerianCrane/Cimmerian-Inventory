@@ -160,63 +160,92 @@ export default function PartsTable({ parts, sortField, sortDir, onSort, onView, 
           return (
             <div
               key={part.id}
-              className={`p-4 space-y-3 ${isLow ? 'bg-clay-50/40' : ''}`}
+              className={`p-4 active:bg-stone-150/60 transition-colors ${
+                isLow ? 'bg-clay-50/40' : ''
+              }`}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <button
+                  type="button"
+                  onClick={() => onView?.(part)}
+                  className="flex-1 min-w-0 text-left -ml-1 pl-1 py-1 rounded-md active:bg-stone-200/40 transition-colors touch-target"
+                >
                   <div className="flex items-center gap-2 mb-1">
                     {isLow && (
                       <span className="w-1.5 h-1.5 rounded-full bg-clay-500 flex-shrink-0" />
                     )}
-                    <h3 className="text-sm font-medium text-stone-800 truncate">{part.part_name}</h3>
+                    <h3 className="text-sm font-semibold text-stone-800 truncate">{part.part_name}</h3>
                   </div>
                   <span className="text-xs font-mono text-stone-500">{part.part_number || '—'}</span>
-                </div>
-                <div className="flex items-center gap-1 flex-shrink-0">
-                  {onView && (
-                    <button
-                      onClick={() => onView(part)}
-                      className="p-2 rounded-lg text-stone-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
-                      title="View details & QR"
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" strokeLinejoin="round" />
-                        <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" strokeLinejoin="round" />
-                      </svg>
-                    </button>
-                  )}
-                  <button
-                    onClick={() => onEdit(part)}
-                    className="p-2 rounded-lg text-stone-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => onDelete(part)}
-                    className="p-2 rounded-lg text-stone-400 hover:text-clay-500 hover:bg-clay-50 transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" strokeLinejoin="round" />
-                    </svg>
-                  </button>
+                </button>
+                {/* Quantity badge — top-right of card */}
+                <div className="flex-shrink-0 text-right">
+                  <p className={`text-xl font-display font-semibold tracking-tighter leading-none ${
+                    isLow ? 'text-clay-600' : 'text-stone-800'
+                  }`}>
+                    {part.quantity ?? '—'}
+                  </p>
+                  <p className="text-[10px] font-mono uppercase tracking-wider text-stone-400 mt-1">
+                    on hand
+                  </p>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-1.5 text-xs">
+              <div className="flex flex-wrap gap-1.5 text-xs mb-2">
                 {part.category && <span className="badge-indigo">{part.category}</span>}
-                <span className={`badge ${isLow ? 'bg-clay-50 text-clay-600 border-clay-200/70' : 'bg-white'}`}>
-                  Qty: <span className={`font-mono font-semibold ${isLow ? 'text-clay-600' : 'text-stone-800'}`}>{part.quantity ?? '—'}</span>
-                </span>
-                <span className="badge">
-                  Min: <span className="font-mono">{part.min_stock ?? '—'}</span>
-                </span>
-                {part.supplier && <span className="badge">{part.supplier}</span>}
                 {part.location && <span className="badge font-mono">{part.location}</span>}
+                {part.supplier && <span className="badge truncate max-w-[140px]">{part.supplier}</span>}
+                {isLow && (
+                  <span className="badge-clay">
+                    Below min {part.min_stock}
+                  </span>
+                )}
               </div>
               {part.notes && (
                 <p className="text-xs text-stone-500 truncate leading-relaxed">{part.notes}</p>
               )}
+              {/* Action row */}
+              <div className="flex items-center justify-end gap-1 mt-3 -mb-1 -mr-1">
+                {onView && (
+                  <button
+                    type="button"
+                    onClick={() => onView(part)}
+                    className="touch-target inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-stone-500 hover:text-indigo-600 hover:bg-indigo-50 active:bg-indigo-100 transition-colors text-xs font-medium"
+                    aria-label="View part details"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" strokeLinejoin="round" />
+                      <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" strokeLinejoin="round" />
+                    </svg>
+                    View
+                  </button>
+                )}
+                {onEdit && (
+                  <button
+                    type="button"
+                    onClick={() => onEdit(part)}
+                    className="touch-target inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-stone-500 hover:text-amber-600 hover:bg-amber-50 active:bg-amber-100 transition-colors text-xs font-medium"
+                    aria-label="Edit part"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" strokeLinejoin="round" />
+                    </svg>
+                    Edit
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    type="button"
+                    onClick={() => onDelete(part)}
+                    className="touch-target inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-stone-500 hover:text-clay-600 hover:bg-clay-50 active:bg-clay-100 transition-colors text-xs font-medium"
+                    aria-label="Delete part"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" strokeLinejoin="round" />
+                    </svg>
+                    Delete
+                  </button>
+                )}
+              </div>
             </div>
           )
         })}

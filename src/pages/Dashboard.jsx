@@ -182,23 +182,23 @@ export default function Dashboard({ session, onLogout }) {
     <div className="min-h-screen">
       <Header session={session} onLogout={onLogout} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-8 pb-32 sm:pb-20">
         {/* Page heading */}
-        <div className="mb-8 animate-slide-up">
+        <div className="mb-6 sm:mb-8 animate-slide-up">
           <div className="flex items-center gap-3 mb-2">
             <span className="label-eyebrow">Operations Dashboard</span>
             <span className="h-px flex-1 bg-stone-200 max-w-[100px]" />
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tighter text-stone-800 leading-[1.05]">
+          <h1 className="font-display text-3xl sm:text-5xl font-semibold tracking-tighter text-stone-800 leading-[1.05]">
             Parts Inventory
           </h1>
-          <p className="text-stone-500 text-sm mt-3 max-w-xl leading-relaxed">
+          <p className="text-stone-500 text-sm mt-2.5 sm:mt-3 max-w-xl leading-relaxed">
             Track stock levels, manage reorder thresholds, and keep your parts catalogue organized.
           </p>
         </div>
 
-        {/* Stats Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 animate-slide-up" style={{ animationDelay: '0.05s' }}>
+        {/* Stats Row — compact 3-up on mobile */}
+        <div className="grid grid-cols-3 gap-2.5 sm:gap-4 mb-6 sm:mb-8 animate-slide-up" style={{ animationDelay: '0.05s' }}>
           <StatCard
             label="Total Parts"
             value={totalParts}
@@ -232,7 +232,7 @@ export default function Dashboard({ session, onLogout }) {
         </div>
 
         {/* Controls Bar */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+        <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mb-5 sm:mb-6 animate-slide-up" style={{ animationDelay: '0.1s' }}>
           {/* Search */}
           <div className="relative flex-1">
             <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -240,7 +240,9 @@ export default function Dashboard({ session, onLogout }) {
               <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
             </svg>
             <input
-              type="text"
+              type="search"
+              inputMode="search"
+              autoComplete="off"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by part name or number..."
@@ -249,7 +251,8 @@ export default function Dashboard({ session, onLogout }) {
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-stone-400 hover:text-stone-700 hover:bg-stone-150 rounded-md transition-colors"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-stone-400 hover:text-stone-700 hover:bg-stone-150 rounded-md transition-colors touch-target"
+                aria-label="Clear search"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" />
@@ -274,20 +277,19 @@ export default function Dashboard({ session, onLogout }) {
             </svg>
           </div>
 
-          {/* Scan QR */}
+          {/* Scan QR — desktop only button (mobile uses sticky action bar) */}
           <button
             onClick={() => setScannerOpen(true)}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-stone-800 hover:bg-stone-900 active:bg-stone-700 text-stone-50 font-medium rounded-xl transition-[transform,background-color,box-shadow] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100 shadow-stone-sm hover:shadow-stone-md hover:-translate-y-px active:translate-y-0 whitespace-nowrap"
+            className="hidden sm:inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-stone-800 hover:bg-stone-900 active:bg-stone-700 text-stone-50 font-medium rounded-xl transition-[transform,background-color,box-shadow] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100 shadow-stone-sm hover:shadow-stone-md hover:-translate-y-px active:translate-y-0 whitespace-nowrap"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h2v2h-2zM18 14h3v3M14 18h2v3M18 18h3v3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className="hidden sm:inline">Scan QR</span>
-            <span className="sm:hidden">Scan</span>
+            Scan QR
           </button>
 
-          {/* Add Part */}
-          <button onClick={openAdd} className="btn-accent whitespace-nowrap">
+          {/* Add Part — desktop button */}
+          <button onClick={openAdd} className="hidden sm:inline-flex btn-accent whitespace-nowrap">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
               <path d="M12 5v14M5 12h14" strokeLinecap="round" />
             </svg>
@@ -305,7 +307,7 @@ export default function Dashboard({ session, onLogout }) {
           {(search || categoryFilter !== 'All Categories') && (
             <button
               onClick={() => { setSearch(''); setCategoryFilter('All Categories') }}
-              className="text-xs text-amber-600 hover:text-amber-700 font-medium transition-colors"
+              className="text-xs text-amber-600 hover:text-amber-700 font-medium transition-colors px-2 py-1 -mr-2 rounded-md hover:bg-amber-50"
             >
               Clear filters
             </button>
@@ -325,6 +327,32 @@ export default function Dashboard({ session, onLogout }) {
           />
         </div>
       </main>
+
+      {/* Sticky bottom action bar — mobile only */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 pb-safe">
+        <div className="bg-gradient-to-t from-stone-100 via-stone-100/95 to-stone-100/0 pt-6 pb-3 px-4">
+          <div className="flex items-center gap-2.5 surface-floating p-2">
+            <button
+              onClick={() => setScannerOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 h-12 rounded-xl bg-stone-800 hover:bg-stone-900 active:bg-stone-700 text-stone-50 font-medium transition-colors touch-target"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h2v2h-2zM18 14h3v3M14 18h2v3M18 18h3v3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span className="text-sm">Scan</span>
+            </button>
+            <button
+              onClick={openAdd}
+              className="flex-[1.4] flex items-center justify-center gap-2 h-12 rounded-xl bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white font-semibold transition-colors touch-target shadow-amber-glow"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+              </svg>
+              <span className="text-sm">Add Part</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Modals */}
       {modalOpen && (
@@ -400,19 +428,19 @@ function StatCard({ label, value, accent, icon }) {
   const a = accents[accent]
 
   return (
-    <div className="surface-card p-5 group hover:shadow-stone-md transition-shadow duration-300">
-      <div className="flex items-start justify-between mb-4">
-        <div className={`w-10 h-10 rounded-xl ${a.iconBg} flex items-center justify-center`}>
-          <svg className={`w-5 h-5 ${a.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+    <div className="surface-card p-3.5 sm:p-5 group hover:shadow-stone-md transition-shadow duration-300 min-w-0">
+      <div className="flex items-start justify-between mb-2.5 sm:mb-4">
+        <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl ${a.iconBg} flex items-center justify-center flex-shrink-0`}>
+          <svg className={`w-4 h-4 sm:w-5 sm:h-5 ${a.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
             {icon}
           </svg>
         </div>
-        <div className={`w-1.5 h-1.5 rounded-full ${a.dot} opacity-60`} />
+        <div className={`hidden sm:block w-1.5 h-1.5 rounded-full ${a.dot} opacity-60`} />
       </div>
-      <p className={`text-4xl font-display font-semibold tracking-tighter ${a.text} leading-none`}>
+      <p className={`text-2xl sm:text-4xl font-display font-semibold tracking-tighter ${a.text} leading-none`}>
         {value}
       </p>
-      <p className="label-eyebrow mt-3">{label}</p>
+      <p className="label-eyebrow mt-1.5 sm:mt-3 truncate">{label}</p>
     </div>
   )
 }
