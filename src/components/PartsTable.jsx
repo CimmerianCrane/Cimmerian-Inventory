@@ -23,7 +23,7 @@ function SortIcon({ active, dir }) {
   )
 }
 
-export default function PartsTable({ parts, sortField, sortDir, onSort, onEdit, onDelete }) {
+export default function PartsTable({ parts, sortField, sortDir, onSort, onView, onEdit, onDelete }) {
   if (parts.length === 0) {
     return (
       <div className="surface-card p-16 text-center">
@@ -114,6 +114,18 @@ export default function PartsTable({ parts, sortField, sortDir, onSort, onEdit, 
                   </td>
                   <td className="px-4 py-3.5 text-right">
                     <div className="flex items-center justify-end gap-1">
+                      {onView && (
+                        <button
+                          onClick={() => onView(part)}
+                          className="p-2 rounded-lg text-stone-400 hover:text-indigo-600 hover:bg-indigo-50 transition-[color,background-color] duration-150"
+                          title="View details & QR"
+                        >
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" strokeLinejoin="round" />
+                            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" strokeLinejoin="round" />
+                          </svg>
+                        </button>
+                      )}
                       <button
                         onClick={() => onEdit(part)}
                         className="p-2 rounded-lg text-stone-400 hover:text-amber-600 hover:bg-amber-50 transition-[color,background-color] duration-150"
@@ -161,6 +173,18 @@ export default function PartsTable({ parts, sortField, sortDir, onSort, onEdit, 
                   <span className="text-xs font-mono text-stone-500">{part.part_number || '—'}</span>
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0">
+                  {onView && (
+                    <button
+                      onClick={() => onView(part)}
+                      className="p-2 rounded-lg text-stone-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                      title="View details & QR"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" strokeLinejoin="round" />
+                        <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  )}
                   <button
                     onClick={() => onEdit(part)}
                     className="p-2 rounded-lg text-stone-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"
